@@ -1,6 +1,7 @@
 package com.utp.integrador.controller;
 
 import com.utp.integrador.model.Usuario;
+import com.utp.integrador.model.dao.impl.LoginDaoImp;
 import com.utp.integrador.view.FrmLogin;
 import javax.swing.JOptionPane;
 
@@ -17,28 +18,17 @@ public class LoginController {
 
     //recibe el dni, password, objeto frmLogin
     public static Usuario validateFrmLogin(String dni, String password) {
-        Usuario usuario = null;
+        //creo objeto login
+        LoginDaoImp login = new LoginDaoImp();
 
-        if ("admin".equals(dni) && "admin".equals(password)) {
-            usuario = new Usuario();
-            usuario.setId("0001");
-            usuario.setDni("admin");
-            usuario.setNombre("admin");
-            usuario.setApellido("admin");
-            usuario.setContrasena("admin");
-            JOptionPane.showMessageDialog(null, "Bienvenido al Sistema " + usuario.getNombre());
-        } else if ("48136550".equals(dni) && 123 == (Integer.parseInt(password))) {
-            usuario = new Usuario();
-            usuario.setId("0002");
-            usuario.setDni(dni);
-            usuario.setNombre("Cesar");
-            usuario.setApellido("Valdiviezo");
-            usuario.setContrasena("123");
-            JOptionPane.showMessageDialog(null, "Bienvenido al Sistema " + usuario.getNombre());
-        } else {
-            JOptionPane.showMessageDialog(null, "Usuario o Contraseña incorrecta, favor de volver a ingresar");
-        }
+        //valida el dni y password en el metodo validateLogin y devuelve el usuario
+        Usuario usuario = login.validateLogin(dni, password);
 
+        if (usuario == null) {
+            JOptionPane.showMessageDialog(null, "No se encontró Usuario, vuelva a intentarlo");
+        } 
+
+       
         return usuario;
     }
 }

@@ -277,6 +277,7 @@ public class JDPais extends javax.swing.JDialog {
         pais.setNombre(txt_nombre.getText());
 
         PaisController.loadJTableRegistrarPais(modelo, jTable_Pais, pais);
+        PaisController.loadJTablePaises(modelo, jTable_Pais, pais);
         limpiar();
     }//GEN-LAST:event_btn_registrarActionPerformed
 

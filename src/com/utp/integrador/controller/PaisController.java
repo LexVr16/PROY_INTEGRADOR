@@ -1,6 +1,7 @@
 package com.utp.integrador.controller;
 
 import com.utp.integrador.model.Pais;
+import com.utp.integrador.model.dao.impl.PaisDaoImp;
 import com.utp.integrador.view.JDPais;
 import java.util.Arrays;
 import java.util.List;
@@ -13,18 +14,18 @@ import javax.swing.table.DefaultTableModel;
  * @author Usuario
  */
 public class PaisController {
-
+    
     public static JDPais jDPais = new JDPais(null, true);
-
+    
     public static void callJDPais() {
         jDPais.setVisible(true);
     }
-
+    
     public static DefaultTableModel loadJTablePaises(DefaultTableModel defaultTableModel, JTable jTable, Pais pais) {
-        List<Pais> listaUsuario = Arrays.asList(
-                new Pais("0001", "Perú"),
-                new Pais("0002", "Estados Unidos"));
-
+        PaisDaoImp paisDaoImp = new PaisDaoImp();
+        
+        List<Pais> listaUsuario = paisDaoImp.findAll();
+        
         for (Pais p : listaUsuario) {
             Object[] objectData = {
                 p.getId(),
@@ -32,22 +33,18 @@ public class PaisController {
             };
             defaultTableModel.addRow(objectData);
         }
-
+        
         jTable.setModel(defaultTableModel);
         return defaultTableModel;
     }
-
+    
     public static DefaultTableModel loadJTableRegistrarPais(DefaultTableModel defaultTableModel, JTable jTable, Pais pais) {
-        Object[] objectData = {
-            pais.getId(),
-            pais.getNombre()
-        };
-        defaultTableModel.addRow(objectData);
+        PaisDaoImp paisDaoImp = new PaisDaoImp();        
+        paisDaoImp.insert(pais);
         JOptionPane.showMessageDialog(null, "Se registro correctamente");
-        jTable.setModel(defaultTableModel);
         return defaultTableModel;
     }
-
+    
     public static DefaultTableModel loadJTableActualizarPais(DefaultTableModel defaultTableModel, JTable jTable, Pais pais) {
         for (int i = 0; i < defaultTableModel.getRowCount(); i++) {
             if (defaultTableModel.getValueAt(i, 0).toString().equals(pais.getId())) {
@@ -58,7 +55,7 @@ public class PaisController {
         jTable.setModel(defaultTableModel);
         return defaultTableModel;
     }
-
+    
     public static DefaultTableModel loadJTableEliminarPais(DefaultTableModel defaultTableModel, JTable jTable, Pais pais) {
         for (int i = 0; i < defaultTableModel.getRowCount(); i++) {
             if (defaultTableModel.getValueAt(i, 0).toString().equals(pais.getId())) {
