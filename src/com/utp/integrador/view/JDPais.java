@@ -29,7 +29,7 @@ public class JDPais extends javax.swing.JDialog {
         modelo = new DefaultTableModel(null, titulo);
         jTable_Pais.setModel(modelo);
 
-        PaisController.loadJTablePaises(modelo, jTable_Pais, pais);
+        PaisController.cargarTablaPaises(modelo, jTable_Pais, pais);
         limpiar();
     }
 
@@ -256,14 +256,16 @@ public class JDPais extends javax.swing.JDialog {
         pais = new Pais();
         pais.setId(txt_id.getText());
         pais.setNombre(txt_nombre.getText());
-        PaisController.loadJTableActualizarPais(modelo, jTable_Pais, pais);
+        PaisController.actualizarPais(pais);
+        PaisController.cargarTablaPaises(modelo, jTable_Pais, pais);
         limpiar();
     }//GEN-LAST:event_btn_actualizarActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
         pais = new Pais();
         pais.setId(txt_id.getText());
-        PaisController.loadJTableEliminarPais(modelo, jTable_Pais, pais);
+        PaisController.eliminarPais( pais);
+        PaisController.cargarTablaPaises(modelo, jTable_Pais, pais);
         limpiar();
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
@@ -276,8 +278,8 @@ public class JDPais extends javax.swing.JDialog {
         pais.setId(txt_id.getText());
         pais.setNombre(txt_nombre.getText());
 
-        PaisController.loadJTableRegistrarPais(modelo, jTable_Pais, pais);
-        PaisController.loadJTablePaises(modelo, jTable_Pais, pais);
+        PaisController.registrarPais(pais);
+        PaisController.cargarTablaPaises(modelo, jTable_Pais, pais);
         limpiar();
     }//GEN-LAST:event_btn_registrarActionPerformed
 

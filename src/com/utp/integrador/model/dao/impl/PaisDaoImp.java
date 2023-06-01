@@ -47,8 +47,33 @@ public class PaisDaoImp extends DataBase implements PaisDao {
     }
 
     @Override
-    public Pais find(String v) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Pais find(String id) {
+        
+        Pais pais = new Pais();
+
+        try {
+            con = getConnection();
+            pst = con.prepareStatement("select * from pais where id = " + id + "");
+
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                pais.setId(rs.getString(1));
+                pais.setNombre(rs.getString(2));
+            } else {
+                System.out.println("No se encontró Usuario con el id = " + id);
+            }
+
+            rs.close();
+            pst.close();
+            con.close();
+
+            System.out.println("SUCCESS TO FIND - find()");
+        } catch (SQLException e) {
+            System.out.println("ERROR TO FIND - find()");
+            System.out.println(e);
+        }
+        return pais;
     }
 
     @Override
@@ -83,13 +108,45 @@ public class PaisDaoImp extends DataBase implements PaisDao {
     }
 
     @Override
-    public void update(Pais t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void update(Pais pais) {
+        try {
+            con = getConnection();
+            pst = con.prepareStatement("update pais set id=?, descripcion=? where id=?");
+            
+            pst.setString(1, pais.getNombre());
+
+            pst.setString(2, pais.getId());
+
+            pst.executeUpdate();
+
+            pst.close();
+            con.close();
+
+            System.out.println("SUCCESS TO UPDATE - update()");
+        } catch (SQLException e) {
+            System.out.println("ERROR TO UPDATE - update()");
+            System.out.println(e);
+        }
     }
 
     @Override
-    public void delete(String v) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void delete(String id) {
+        try {
+            con = this.getConnection();
+            pst = con.prepareStatement("delete from articulo where idarticulo=?");
+
+            pst.setString(1, id);
+
+            pst.executeUpdate();
+
+            pst.close();
+            con.close();
+
+            System.out.println("SUCCESS TO DELETE - delete()");
+        } catch (SQLException e) {
+            System.out.println("ERROR TO DELETE - delete()");
+            System.out.println(e);
+        }
     }
 
 }
