@@ -28,7 +28,7 @@ public class JDUsuario extends javax.swing.JDialog {
 
         String[] titulo = {"Id", "DNI", "Nombres", "Apellidos", "E-mail", "N° De Cuenta", "Contraseña"};
         modelo = new DefaultTableModel(null, titulo);
-        UsuarioController.loadJTable_ListaUsuarios(modelo, jTable_usuarios, usuario);
+        UsuarioController.cargarListaUsuarios(modelo, jTable_usuarios, usuario);
         generateCod();
     }
 
@@ -355,7 +355,10 @@ public class JDUsuario extends javax.swing.JDialog {
         usuario.setCorreoElectronico(txt_eMail.getText());
         usuario.setContrasena(txt_password.getText());
 
-        UsuarioController.loadJTableAgregarUsuario(modelo, jTable_usuarios, usuario);
+        boolean registrado = UsuarioController.registrarUsuario(usuario);
+        if (registrado == true) {
+            UsuarioController.cargarListaUsuarios(modelo, jTable_usuarios, usuario);
+        }
         limpiar();
     }//GEN-LAST:event_btn_registrarActionPerformed
 
@@ -366,7 +369,8 @@ public class JDUsuario extends javax.swing.JDialog {
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
         usuario = new Usuario();
         usuario.setId(txt_id.getText());
-        UsuarioController.loadJTableEliminarUsuario(modelo, jTable_usuarios, usuario);
+        UsuarioController.eliminarUsuario(usuario);
+        UsuarioController.cargarListaUsuarios(modelo, jTable_usuarios, usuario);
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
@@ -378,7 +382,8 @@ public class JDUsuario extends javax.swing.JDialog {
         usuario.setCorreoElectronico(txt_eMail.getText());
         usuario.setContrasena(txt_password.getText());
 
-        UsuarioController.loadJTableActulizarUsuario(modelo, jTable_usuarios, usuario);
+        UsuarioController.actulizarUsuario(usuario);
+        UsuarioController.cargarListaUsuarios(modelo, jTable_usuarios, usuario);
         limpiar();
     }//GEN-LAST:event_btn_actualizarActionPerformed
 
