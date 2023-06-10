@@ -2,6 +2,7 @@ package com.utp.integrador.controller;
 
 import com.utp.integrador.model.Moneda;
 import com.utp.integrador.model.Pais;
+import com.utp.integrador.model.dao.impl.MonedaDaoImp;
 import com.utp.integrador.view.JDMoneda;
 import java.util.Arrays;
 import java.util.List;
@@ -22,10 +23,8 @@ public class MonedaController {
     }
 
     public static DefaultTableModel loadJTableMonedas(DefaultTableModel defaultTableModel, JTable jTable, Moneda moneda) {
-        List<Moneda> listaMoneda = Arrays.asList(
-                new Moneda("0001", "Dolares", "$.", 3.71, "03/05/2023 22:23:48", "Estados Unidos"),
-                new Moneda("0002", "Soles", "S/.", 0.27, "03/05/2023 23:23:48", "Perú"));
-
+        MonedaDaoImp monedaDaoImp=new MonedaDaoImp();
+        List<Moneda> listaMoneda = monedaDaoImp.findAll();
         for (Moneda moneda1 : listaMoneda) {
             Object[] objectData = {
                 moneda1.getId(),
@@ -51,6 +50,8 @@ public class MonedaController {
             moneda.getFechaHora(),
             moneda.getIdPais()
         };
+        MonedaDaoImp monedaDaoImp=new MonedaDaoImp();
+        monedaDaoImp.insert(moneda);
         defaultTableModel.addRow(objectData);
         jTable.setModel(defaultTableModel);
         JOptionPane.showMessageDialog(null, "Se registro correctamente");
@@ -67,6 +68,10 @@ public class MonedaController {
                 defaultTableModel.setValueAt(moneda.getTipoCambio(), i, 3);
                 defaultTableModel.setValueAt(moneda.getFechaHora(), i, 4);
                 defaultTableModel.setValueAt(moneda.getIdPais(), i, 5);
+                
+                
+                MonedaDaoImp monedaDaoImp=new MonedaDaoImp();
+                monedaDaoImp.update(moneda);
                 JOptionPane.showMessageDialog(null, "Se actualizó correctamente");
                 jDMoneda.jTabbedPane1.setSelectedIndex(1);
             }
@@ -79,6 +84,8 @@ public class MonedaController {
         for (int i = 0; i < defaultTableModel.getRowCount(); i++) {
             if (defaultTableModel.getValueAt(i, 0).toString().equals(moneda.getId())) {
                 defaultTableModel.removeRow(i);
+                MonedaDaoImp monedaDaoImp=new MonedaDaoImp();
+                monedaDaoImp.delete(moneda.getId());
                 JOptionPane.showMessageDialog(null, "Se eliminó correctamente");
                 jDMoneda.jTabbedPane1.setSelectedIndex(1);
             }

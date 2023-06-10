@@ -89,7 +89,7 @@ public class PaisDaoImp extends DataBase implements PaisDao {
                 Pais pais = new Pais();
 
                 pais.setId(rs.getString(1));
-                pais.setNombre(rs.getString(1));
+                pais.setNombre(rs.getString(2));
 
                 Paises.add(pais);
             }

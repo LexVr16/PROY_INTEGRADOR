@@ -6,6 +6,8 @@ package com.utp.integrador.model;
  */
 public class Moneda {
 
+    public static String getId;
+
     private String id;
     private String nombre;
     private String simbolo;
