@@ -43,8 +43,9 @@ CREATE TABLE Usuario(
        email VARCHAR(100) NULL,
        password VARBINARY(12)  NOT NULL
 );
-INSERT INTO Usuario (idUsuario, dni, nombres, apellidos, email, password) VALUES ('U001','12345678','admin','admin','admin@gmail.com',123);
+INSERT INTO Usuario (idUsuario, dni, nombres, apellidos, email, password) VALUES ('U001','admin','admin','admin','admin@gmail.com','admin');
 SELECT * FROM Usuario;
+select * from usuario where dni ='admin' and password = 'admin';
 
 -- --Tabla cuenta bancaria 
 CREATE TABLE CuentaBancaria(
@@ -91,3 +92,4 @@ INSERT INTO Historial (idHistorial, idTransaccion, fechaHistorial)
 VALUES ('H001', 'T001', '2023-05-16');
 INSERT INTO Historial (idHistorial, idTransaccion, fechaHistorial) 
 VALUES ('H002', 'T002', '2023-05-16');
+

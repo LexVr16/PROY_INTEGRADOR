@@ -10,7 +10,7 @@ import java.sql.SQLException;
  */
 public class DataBase {
 /* DATOS PARA LA CONEXION */
-  private final String bd = "sys_cambiex";
+  private final String bd = "sys_monedax";
   private final String username = "root";
   private final String password = "123456";
   private final String url = "jdbc:mysql://localhost/"+bd+"?characterEncoding=utf8";

@@ -27,10 +27,11 @@ public class LoginDaoImp extends DataBase implements LoginDao {
     public Usuario validateLogin(String dni, String password) {
         Usuario usuario = null;
         try {
+            System.out.println(dni + "  " + password);
             con = getConnection();
-            pst = con.prepareStatement("select * from usuario where num_documento= " + dni + " and password=" + password + "");
+            pst = con.prepareStatement("select * from usuario where dni = '" + dni + "' and password = '" + password + "' ");
             rs = pst.executeQuery();
-
+            System.out.println(dni+"  "+password);
             if (rs.next()) {
                 usuario = new Usuario();
                 usuario.setId(rs.getString(1));
@@ -48,6 +49,7 @@ public class LoginDaoImp extends DataBase implements LoginDao {
             con.close();
             System.out.println("SUCCESS TO VALIDATE_LOGIN - validateLogin()");
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             System.out.println("ERROR TO VALIDATE_LOGIN - validateLogin()");
         }
         return usuario;
