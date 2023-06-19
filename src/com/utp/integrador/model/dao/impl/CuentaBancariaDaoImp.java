@@ -4,10 +4,7 @@
  */
 package com.utp.integrador.model.dao.impl;
 
-/**
- *
- * @author Usuario
- */
+
 public class CuentaBancariaDaoImp {
     
 }
