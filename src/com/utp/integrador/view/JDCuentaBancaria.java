@@ -49,11 +49,7 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
     }
 
     void generateCod() {
-        int count = 0;
-        for (int i = 0; i < modelo.getRowCount(); i++) {
-            count = Integer.parseInt(jTable_Cuentas.getValueAt(i, 0).toString());
-        }
-        txt_id.setText(String.valueOf(Util.generateNumComprobante(count)));
+        txt_id.setText(String.valueOf(Util.generateUniqueId()));
         txt_nombre.requestFocus();
     }
 

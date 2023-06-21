@@ -33,8 +33,7 @@ public class JDMoneda extends javax.swing.JDialog {
     }
 
     void limpiar() {
-        int count = jTable_moneda.getRowCount();
-        txt_id.setText(String.valueOf(Util.generateNumComprobante(count)));
+        txt_id.setText(String.valueOf(Util.generateUniqueId()));
 
         txt_nombre.setText("");
         cbox_pais.setSelectedIndex(0);

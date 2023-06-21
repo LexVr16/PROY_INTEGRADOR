@@ -28,15 +28,15 @@ public class UsuarioDaoImp extends DataBase implements UsuarioDao {
     public void insert(Usuario user) {
         try {
             con = getConnection();
-            pst = con.prepareStatement("insert into usuario (idUsuario, "
-                    + "nombres, apellidos, email, password) values(?,?,?,?,?)");
+            pst = con.prepareStatement("insert into usuario (idUsuario, dni, "
+                    + "nombres, apellidos, email, password) values(?,?,?,?,?,?)");
 
             pst.setString(1, user.getIdUsuario());
             pst.setString(2, user.getDni());
             pst.setString(3, user.getNombres());
             pst.setString(4, user.getApellidos());
             pst.setString(5, user.getEmail());
-            pst.setString(5, user.getPassword());
+            pst.setString(6, user.getPassword());
 
             pst.executeUpdate();
 
@@ -52,7 +52,7 @@ public class UsuarioDaoImp extends DataBase implements UsuarioDao {
 
     @Override
     public Usuario find(String idUsuario) {
-       Usuario user = new Usuario();
+        Usuario user = new Usuario();
 
         try {
             con = getConnection();
@@ -66,7 +66,7 @@ public class UsuarioDaoImp extends DataBase implements UsuarioDao {
                 user.setApellidos(rs.getString(4));
                 user.setEmail(rs.getString(5));
                 user.setPassword(rs.getString(6));
-                
+
             } else {
                 System.out.println("No se encontró Usuario con el idUsuario = " + idUsuario);
             }
@@ -94,7 +94,7 @@ public class UsuarioDaoImp extends DataBase implements UsuarioDao {
 
             while (rs.next()) {
                 Usuario user = new Usuario();
-
+                user.setIdUsuario(rs.getString(1));
                 user.setDni(rs.getString(2));
                 user.setNombres(rs.getString(3));
                 user.setApellidos(rs.getString(4));
@@ -123,13 +123,13 @@ public class UsuarioDaoImp extends DataBase implements UsuarioDao {
             pst = con.prepareStatement("update usuario set dni=?,"
                     + " nombres=?, apellidos=?, email=?, password=? "
                     + "where idUsuario=?");
-           
+
             pst.setString(1, user.getDni());
             pst.setString(2, user.getNombres());
             pst.setString(3, user.getApellidos());
             pst.setString(4, user.getEmail());
             pst.setString(5, user.getPassword());
-            
+
             pst.setString(6, user.getIdUsuario());
 
             pst.executeUpdate();

@@ -2,6 +2,7 @@ package com.utp.integrador.utilitarios;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 import javax.swing.JLabel;
 
 /**
@@ -41,20 +42,9 @@ public class Util extends Thread {
         }
     }
 
-    public static String generateNumComprobante(int numero) {
-
-        int num = 0;
-        num = numero + 1;
-
-        String numGenerated = "";
-        if (num < 10) {
-            numGenerated = "000".concat(String.valueOf(num));
-        } else if (num < 100) {
-            numGenerated = "00".concat(String.valueOf(num));
-        } else if (num < 1000) {
-            numGenerated = "0".concat(String.valueOf(num));
-        }
-        return numGenerated;
+    public static String generateUniqueId() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString();
     }
 
 }
