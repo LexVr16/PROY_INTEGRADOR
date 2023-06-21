@@ -19,16 +19,16 @@ import java.util.List;
  * @author Usuario
  */
 public class MonedaDaoImp extends DataBase implements MonedaDao{
-private Connection con;
-    private PreparedStatement pst;
-    private ResultSet rs;
-    
+     Connection con;
+     PreparedStatement pst;
+     ResultSet rs;
+     Moneda m = new Moneda();
     
     @Override
     public void insert(Moneda t) {
        try {
             con = getConnection();
-            pst = con.prepareStatement("insert into Moneda (id,nombre,simbolo,tipoCambio,fechaHora,idPais) values(?,?,?,?,?,?)");
+            pst = con.prepareStatement("insert into moneda (id,nombre,simbolo,tipoCambio,fechaHora,idPais) values(?,?,?,?,?,?)");
 
             pst.setString(1,t.getId() );
             pst.setString(2, t.getNombre());
@@ -56,7 +56,7 @@ private Connection con;
         Moneda moneda=new Moneda();
         try {
             con = getConnection();
-            pst = con.prepareStatement("select * from Moneda where id = " + id + "");
+            pst = con.prepareStatement("select * from moneda where id = " + id + "");
 
             rs = pst.executeQuery();
 
@@ -87,22 +87,22 @@ private Connection con;
     @Override
     public List<Moneda> findAll() {
         List<Moneda> Monedas = new ArrayList<>(); 
+        String sql = "select * from moneda";
         try {
-            con = getConnection();
-            pst = con.prepareStatement("select * from Moneda");
+            con = super.getConnection();
+            pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                Moneda moneda = new Moneda();
+        
+                m.setId(rs.getString("idMoneda"));
+                m.setNombre(rs.getString("nombre"));
+                m.setSimbolo(rs.getString("simbolo"));
+                m.setTipoCambio(rs.getDouble("tipoCambio"));
+                m.setFechaHora(rs.getString("fechaHora"));
+                m.setIdPais(rs.getString("idPais"));
 
-                moneda.setId(rs.getString(1));
-                moneda.setNombre(rs.getString(2));
-                moneda.setSimbolo(rs.getString(3));
-                moneda.setTipoCambio(rs.getDouble(4));
-                moneda.setFechaHora(rs.getString(5));
-                moneda.setIdPais(rs.getString(6));
-
-                Monedas.add(moneda);
+                Monedas.add(m);
             }
 
             rs.close();
@@ -123,7 +123,7 @@ private Connection con;
     public void update(Moneda moneda) {
    try {
             con = getConnection();
-            pst = con.prepareStatement("update Moneda set nombre=?, simbolo=?, tipoCambio=?, fechaHora=?, idPais=? where id=?");
+            pst = con.prepareStatement("update moneda set nombre=?, simbolo=?, tipoCambio=?, fechaHora=?, idPais=? where id=?");
             
             pst.setString(1, moneda.getNombre());
             pst.setString(2, moneda.getSimbolo());
@@ -149,7 +149,7 @@ private Connection con;
     public void delete(String id) {
  try {
             con = this.getConnection();
-            pst = con.prepareStatement("delete from Moneda where id=?");
+            pst = con.prepareStatement("delete from moneda where id=?");
 
             pst.setString(1, id);
 
