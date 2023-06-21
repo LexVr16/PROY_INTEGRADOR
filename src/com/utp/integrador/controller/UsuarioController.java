@@ -47,12 +47,12 @@ public class UsuarioController {
         
         for (Usuario usuario : listaUsuario) {
             Object[] objectData = {
-                usuario.getId(),
+                usuario.getIdUsuario(),
                 usuario.getDni(),
-                usuario.getNombre(),
-                usuario.getApellido(),
-                usuario.getCorreoElectronico(),
-                usuario.getContrasena()
+                usuario.getNombres(),
+                usuario.getApellidos(),
+                usuario.getEmail(),
+                usuario.getPassword()
             };
             defaultTableModel.addRow(objectData);
             
@@ -92,6 +92,6 @@ public class UsuarioController {
     
     public static void eliminarUsuario(Usuario user) {
         UsuarioDaoImp usuarioDaoImp = new UsuarioDaoImp();
-        usuarioDaoImp.delete(user.getId()); 
+        usuarioDaoImp.delete(user.getIdUsuario()); 
     }
 }

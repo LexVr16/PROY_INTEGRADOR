@@ -6,31 +6,31 @@ package com.utp.integrador.model;
  */
 public class Usuario {
 
-    private String id;
+    private String idUsuario;
     private String dni;
-    private String nombre;
-    private String apellido;
-    private String correoElectronico;
-    private String contrasena;
+    private String nombres;
+    private String apellidos;
+    private String email;
+    private String password;
 
     public Usuario() {
     }
 
-    public Usuario(String id, String dni, String nombre, String apellido, String correoElectronico, String contrasena) {
-        this.id = id;
+    public Usuario(String idUsuario, String dni, String nombres, String apellidos, String email, String password) {
+        this.idUsuario = idUsuario;
         this.dni = dni;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.correoElectronico = correoElectronico;
-        this.contrasena = contrasena;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.email = email;
+        this.password = password;
     }
 
-    public String getId() {
-        return id;
+    public String getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getDni() {
@@ -41,36 +41,36 @@ public class Usuario {
         this.dni = dni;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombres() {
+        return nombres;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
     }
 
-    public String getApellido() {
-        return apellido;
+    public String getApellidos() {
+        return apellidos;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
-    public String getCorreoElectronico() {
-        return correoElectronico;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getContrasena() {
-        return contrasena;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
   

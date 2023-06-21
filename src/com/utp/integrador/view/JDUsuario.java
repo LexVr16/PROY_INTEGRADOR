@@ -348,12 +348,12 @@ public class JDUsuario extends javax.swing.JDialog {
 
     private void btn_registrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registrarActionPerformed
         usuario = new Usuario();
-        usuario.setId(txt_id.getText());
+        usuario.setIdUsuario(txt_id.getText());
         usuario.setDni(txt_dni.getText());
-        usuario.setNombre(txt_nombres.getText());
-        usuario.setApellido(txt_apellidos.getText());
-        usuario.setCorreoElectronico(txt_eMail.getText());
-        usuario.setContrasena(txt_password.getText());
+        usuario.setNombres(txt_nombres.getText());
+        usuario.setApellidos(txt_apellidos.getText());
+        usuario.setEmail(txt_eMail.getText());
+        usuario.setPassword(txt_password.getText());
 
         boolean registrado = UsuarioController.registrarUsuario(usuario);
         if (registrado == true) {
@@ -368,19 +368,19 @@ public class JDUsuario extends javax.swing.JDialog {
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
         usuario = new Usuario();
-        usuario.setId(txt_id.getText());
+        usuario.setIdUsuario(txt_id.getText());
         UsuarioController.eliminarUsuario(usuario);
         UsuarioController.cargarListaUsuarios(modelo, jTable_usuarios, usuario);
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
         usuario = new Usuario();
-        usuario.setId(txt_id.getText());
+        usuario.setIdUsuario(txt_id.getText());
         usuario.setDni(txt_dni.getText());
-        usuario.setNombre(txt_nombres.getText());
-        usuario.setApellido(txt_apellidos.getText());
-        usuario.setCorreoElectronico(txt_eMail.getText());
-        usuario.setContrasena(txt_password.getText());
+        usuario.setNombres(txt_nombres.getText());
+        usuario.setApellidos(txt_apellidos.getText());
+        usuario.setEmail(txt_eMail.getText());
+        usuario.setPassword(txt_password.getText());
 
         UsuarioController.actulizarUsuario(usuario);
         UsuarioController.cargarListaUsuarios(modelo, jTable_usuarios, usuario);
