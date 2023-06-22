@@ -2,9 +2,15 @@ package com.utp.integrador.view;
 
 import com.utp.integrador.controller.MonedaController;
 import com.utp.integrador.model.Moneda;
+import com.utp.integrador.model.Pais;
 import com.utp.integrador.model.dao.impl.MonedaDaoImp;
+import com.utp.integrador.model.dao.impl.PaisDaoImp;
 import com.utp.integrador.utilitarios.Util;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -13,13 +19,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public final class JDMoneda extends javax.swing.JDialog {
 
-    MonedaDaoImp mdi =new MonedaDaoImp();
+    MonedaDaoImp mdi = new MonedaDaoImp();
     //Moneda moneda = null;
     //DefaultTableModel modelo = null;
     Moneda moneda = new Moneda();
     DefaultTableModel modelo = new DefaultTableModel();
-
-     String[] titulo = {"Id", "Nombre", "Simbolo", "Tipo de Cambio", "Fecha y Hora", "Pais"};
+    Map<String, String> paisMap = new HashMap<>();
+    String[] titulo = {"Id", "Nombre", "Simbolo", "Tipo de Cambio", "Fecha y Hora", "Pais"};
 
     public JDMoneda(java.awt.Frame parent, boolean modal) {
         //super(parent, modal);
@@ -27,28 +33,23 @@ public final class JDMoneda extends javax.swing.JDialog {
 
         modelo = new DefaultTableModel(null, titulo);
         jTable_moneda.setModel(modelo);
+        MonedaController.cargarMonedasEnLaTabla(modelo, jTable_moneda, moneda);
+        Util util = new Util(lbl_fechaHora);
+        util.start();
+        limpiar();
+        cargarComboPais();
 
-        //MonedaController.loadJTableMonedas(modelo, jTable_moneda, moneda);
-
-      List<Moneda> monedalist =mdi.findAll() ;
-      for (int i = 0; i < monedalist.size(); i++) {
-          Object[] filas = new Object[6];
-          
-            filas[0] = monedalist.get(i).getId();
-            filas[1] = monedalist.get(i).getNombre();
-            filas[2] = monedalist.get(i).getSimbolo();
-            filas[3] = monedalist.get(i).getTipoCambio();
-            filas[4] = monedalist.get(i).getFechaHora();
-            filas[5] = monedalist.get(i).getIdPais();
-            modelo.addRow(filas);  
-           Util util = new Util(lbl_fechaHora);
-           util.start();
-           limpiar();
-        
-        
     }
-    
-  }
+
+    void cargarComboPais() {
+        PaisDaoImp paisDaoImp = new PaisDaoImp();
+        ArrayList<Pais> lista = (ArrayList<Pais>) paisDaoImp.findAll();
+        for (int i = 0; i < lista.size(); i++) {
+            paisMap.put(lista.get(i).getId(), lista.get(i).getNombre());
+            cbox_pais.addItem(lista.get(i).getNombre());
+        }
+    }
+
     void limpiar() {
         txt_id.setText(String.valueOf(Util.generateUniqueId()));
 
@@ -62,7 +63,6 @@ public final class JDMoneda extends javax.swing.JDialog {
         btn_registrar.setEnabled(true);
     }
 
-  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -123,7 +123,7 @@ public final class JDMoneda extends javax.swing.JDialog {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Id :");
 
-        cbox_pais.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "< Select >", "Estados Unidos", "Perú", "España" }));
+        cbox_pais.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "< Select >" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -339,10 +339,9 @@ public final class JDMoneda extends javax.swing.JDialog {
         moneda.setSimbolo(cbox_simbolo.getSelectedItem().toString());
         moneda.setTipoCambio(Double.parseDouble(txt_tipoCambio.getText()));
         moneda.setFechaHora(lbl_fechaHora.getText());
-        moneda.setIdPais(cbox_pais.getSelectedItem().toString());
+        moneda.setIdPais(Util.getId(paisMap, cbox_pais.getSelectedItem().toString()));
         MonedaController.loadJTableRegistraMoneda(modelo, jTable_moneda, moneda);
         limpiar();
-      
     }//GEN-LAST:event_btn_registrarActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
@@ -396,16 +395,24 @@ public final class JDMoneda extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JDMoneda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JDMoneda.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JDMoneda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JDMoneda.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JDMoneda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JDMoneda.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JDMoneda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JDMoneda.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>

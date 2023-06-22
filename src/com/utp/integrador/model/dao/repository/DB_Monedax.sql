@@ -17,7 +17,7 @@ CREATE TABLE Pais(
        nombre VARCHAR(100)
 );
 INSERT INTO Pais (idPais,nombre) VALUES ('P001','Perú');
-INSERT INTO Pais (idPais,nombre) VALUES ('P002','Dolar');
+INSERT INTO Pais (idPais,nombre) VALUES ('P002','Estados Unidos');
 SELECT * FROM Pais;
 
 -- Tabla Moneda
@@ -30,7 +30,7 @@ CREATE TABLE Moneda(
        idPais VARCHAR(50) NULL,
        FOREIGN KEY (idPais) REFERENCES pais(idPais)
 );
-INSERT INTO Moneda (idMoneda,nombre,simbolo,tipoCambio,fechaHora,idPais) VALUES ('M001','Dolar','$.',3.69,'03/05/2023 23:23:48','P001');
+INSERT INTO Moneda (idMoneda,nombre,simbolo,tipoCambio,fechaHora,idPais) VALUES ('M001','Dolar','$.',3.69,'03/05/2023 23:23:48','P002');
 SELECT * FROM Moneda;
 
 

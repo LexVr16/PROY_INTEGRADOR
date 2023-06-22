@@ -18,19 +18,19 @@ import java.util.List;
  *
  * @author Usuario
  */
-public class MonedaDaoImp extends DataBase implements MonedaDao{
-     Connection con;
-     PreparedStatement pst;
-     ResultSet rs;
-     Moneda m = new Moneda();
-    
+public class MonedaDaoImp extends DataBase implements MonedaDao {
+
+    Connection con;
+    PreparedStatement pst;
+    ResultSet rs;
+
     @Override
     public void insert(Moneda t) {
-       try {
+        try {
             con = getConnection();
-            pst = con.prepareStatement("insert into moneda (id,nombre,simbolo,tipoCambio,fechaHora,idPais) values(?,?,?,?,?,?)");
+            pst = con.prepareStatement("insert into moneda (idMoneda,nombre,simbolo,tipoCambio,fechaHora,idPais) values(?,?,?,?,?,?)");
 
-            pst.setString(1,t.getId() );
+            pst.setString(1, t.getId());
             pst.setString(2, t.getNombre());
             pst.setString(3, t.getSimbolo());
             pst.setDouble(4, t.getTipoCambio());
@@ -47,13 +47,11 @@ public class MonedaDaoImp extends DataBase implements MonedaDao{
             System.out.println("ERROR TO INSERT - insert()");
             System.out.println(e);
         }
-    }  
-        
-    
+    }
 
     @Override
     public Moneda find(String id) {
-        Moneda moneda=new Moneda();
+        Moneda moneda = new Moneda();
         try {
             con = getConnection();
             pst = con.prepareStatement("select * from moneda where id = " + id + "");
@@ -81,12 +79,12 @@ public class MonedaDaoImp extends DataBase implements MonedaDao{
             System.out.println(e);
         }
         return moneda;
-        
+
     }
 
     @Override
     public List<Moneda> findAll() {
-        List<Moneda> Monedas = new ArrayList<>(); 
+        List<Moneda> Monedas = new ArrayList<>();
         String sql = "select * from moneda";
         try {
             con = super.getConnection();
@@ -94,13 +92,14 @@ public class MonedaDaoImp extends DataBase implements MonedaDao{
             rs = pst.executeQuery();
 
             while (rs.next()) {
-        
-                m.setId(rs.getString("idMoneda"));
-                m.setNombre(rs.getString("nombre"));
-                m.setSimbolo(rs.getString("simbolo"));
-                m.setTipoCambio(rs.getDouble("tipoCambio"));
-                m.setFechaHora(rs.getString("fechaHora"));
-                m.setIdPais(rs.getString("idPais"));
+                Moneda m = new Moneda();
+                
+                m.setId(rs.getString(1));
+                m.setNombre(rs.getString(2));
+                m.setSimbolo(rs.getString(3));
+                m.setTipoCambio(rs.getDouble(4));
+                m.setFechaHora(rs.getString(5));
+                m.setIdPais(rs.getString(6));
 
                 Monedas.add(m);
             }
@@ -114,17 +113,17 @@ public class MonedaDaoImp extends DataBase implements MonedaDao{
             System.out.println("ERROR TO FINDALL - findAll()");
             System.out.println(e);
         }
-  
-    return Monedas;
-    
+
+        return Monedas;
+
     }
 
     @Override
     public void update(Moneda moneda) {
-   try {
+        try {
             con = getConnection();
             pst = con.prepareStatement("update moneda set nombre=?, simbolo=?, tipoCambio=?, fechaHora=?, idPais=? where id=?");
-            
+
             pst.setString(1, moneda.getNombre());
             pst.setString(2, moneda.getSimbolo());
             pst.setDouble(3, moneda.getTipoCambio());
@@ -142,12 +141,12 @@ public class MonedaDaoImp extends DataBase implements MonedaDao{
         } catch (SQLException e) {
             System.out.println("ERROR TO UPDATE - update()");
             System.out.println(e);
-        }    
+        }
     }
 
     @Override
     public void delete(String id) {
- try {
+        try {
             con = this.getConnection();
             pst = con.prepareStatement("delete from moneda where id=?");
 
@@ -163,7 +162,5 @@ public class MonedaDaoImp extends DataBase implements MonedaDao{
             System.out.println("ERROR TO DELETE - delete()");
             System.out.println(e);
         }
-    }    
+    }
 }
-    
-

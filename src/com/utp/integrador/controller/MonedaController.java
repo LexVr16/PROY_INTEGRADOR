@@ -3,6 +3,7 @@ package com.utp.integrador.controller;
 import com.utp.integrador.model.Moneda;
 import com.utp.integrador.model.Pais;
 import com.utp.integrador.model.dao.impl.MonedaDaoImp;
+import com.utp.integrador.model.dao.impl.PaisDaoImp;
 import com.utp.integrador.view.JDMoneda;
 import java.util.Arrays;
 import java.util.List;
@@ -22,17 +23,32 @@ public class MonedaController {
         jDMoneda.setVisible(true);
     }
 
-    public static DefaultTableModel loadJTableMonedas(DefaultTableModel defaultTableModel, JTable jTable, Moneda moneda) {
-        MonedaDaoImp monedaDaoImp=new MonedaDaoImp();
+    public static DefaultTableModel cargarMonedasEnLaTabla(DefaultTableModel defaultTableModel, JTable jTable, Moneda moneda) {
+        //Obtenemos todos los registros de la tabla Moneda en la BD
+        MonedaDaoImp monedaDaoImp = new MonedaDaoImp();
         List<Moneda> listaMoneda = monedaDaoImp.findAll();
-        for (Moneda moneda1 : listaMoneda) {
+
+        //Obtenemos todos los registros de la tabla Pais en la BD
+        PaisDaoImp paisDaoImp = new PaisDaoImp();
+        List<Pais> paisList = paisDaoImp.findAll();
+
+        String nombrePais = "";
+
+        for (int i = 0; i < listaMoneda.size(); i++) {
+
+            for (int j = 0; j < paisList.size(); j++) {
+                if (paisList.get(j).getId().equals(listaMoneda.get(i).getIdPais())) {
+                    nombrePais = paisList.get(j).getNombre();
+                }
+            }
+
             Object[] objectData = {
-                moneda1.getId(),
-                moneda1.getNombre(),
-                moneda1.getSimbolo(),
-                moneda1.getTipoCambio(),
-                moneda1.getFechaHora(),
-                moneda1.getIdPais()
+                listaMoneda.get(i).getId(),
+                listaMoneda.get(i).getNombre(),
+                listaMoneda.get(i).getSimbolo(),
+                listaMoneda.get(i).getTipoCambio(),
+                listaMoneda.get(i).getFechaHora(),
+                nombrePais
             };
             defaultTableModel.addRow(objectData);
         }
@@ -50,8 +66,9 @@ public class MonedaController {
             moneda.getFechaHora(),
             moneda.getIdPais()
         };
-        MonedaDaoImp monedaDaoImp=new MonedaDaoImp();
+        MonedaDaoImp monedaDaoImp = new MonedaDaoImp();
         monedaDaoImp.insert(moneda);
+
         defaultTableModel.addRow(objectData);
         jTable.setModel(defaultTableModel);
         JOptionPane.showMessageDialog(null, "Se registro correctamente");
@@ -68,9 +85,8 @@ public class MonedaController {
                 defaultTableModel.setValueAt(moneda.getTipoCambio(), i, 3);
                 defaultTableModel.setValueAt(moneda.getFechaHora(), i, 4);
                 defaultTableModel.setValueAt(moneda.getIdPais(), i, 5);
-                
-                
-                MonedaDaoImp monedaDaoImp=new MonedaDaoImp();
+
+                MonedaDaoImp monedaDaoImp = new MonedaDaoImp();
                 monedaDaoImp.update(moneda);
                 JOptionPane.showMessageDialog(null, "Se actualizó correctamente");
                 jDMoneda.jTabbedPane1.setSelectedIndex(1);
@@ -84,7 +100,7 @@ public class MonedaController {
         for (int i = 0; i < defaultTableModel.getRowCount(); i++) {
             if (defaultTableModel.getValueAt(i, 0).toString().equals(moneda.getId())) {
                 defaultTableModel.removeRow(i);
-                MonedaDaoImp monedaDaoImp=new MonedaDaoImp();
+                MonedaDaoImp monedaDaoImp = new MonedaDaoImp();
                 monedaDaoImp.delete(moneda.getId());
                 JOptionPane.showMessageDialog(null, "Se eliminó correctamente");
                 jDMoneda.jTabbedPane1.setSelectedIndex(1);

@@ -2,6 +2,8 @@ package com.utp.integrador.utilitarios;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import javax.swing.JLabel;
 
@@ -47,6 +49,16 @@ public class Util extends Thread {
         return uuid.toString();
     }
 
+    public static String getId(Map<String, String> map, String nombre) {
+        String id = "";
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            if (Objects.equals(nombre, entry.getValue())) {
+                id = entry.getKey();
+            }
+        }
+        return id;
+    }
+
 }
 
 class ActualizarHoraFecha extends Thread {
@@ -81,4 +93,5 @@ class ActualizarHoraFecha extends Thread {
             }
         }
     }
+
 }
