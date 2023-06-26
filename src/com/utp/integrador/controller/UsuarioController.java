@@ -20,23 +20,12 @@ public class UsuarioController {
     static JDUsuario jDUsuario = new JDUsuario(null, true);
     
     public static void callJDUsuario(String usuario) {
-        
-        if ("admin".equals(usuario)) {
-            System.out.println("callJDUsuario " + usuario);
-            jDUsuario.revalidate();
-            jDUsuario.repaint();
-            jDUsuario.setVisible(true);
-            
-        } else if (!"admin".equals(usuario)) {
-            System.out.println("callJDUsuario " + usuario);
-            jDUsuario.btn_actualizar.setVisible(false);
-            jDUsuario.btn_eliminar.setVisible(false);
-            
-            jDUsuario.jTabbedPane.remove(1);
-            jDUsuario.revalidate();
-            jDUsuario.repaint();
-            jDUsuario.setVisible(true);
+        if ("admin".equals(usuario)) {                      
+           jDUsuario.setVisible(true);
         } else {
+            JDUsuario jDUser = new JDUsuario(null, true);
+            jDUser.jTabbedPane.remove(1);
+            jDUser.setVisible(true);
             System.out.println("El usuario no esta registrado");
         }
     }

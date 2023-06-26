@@ -56,7 +56,7 @@ public class UsuarioDaoImp extends DataBase implements UsuarioDao {
 
         try {
             con = getConnection();
-            pst = con.prepareStatement("select * from usuario where idUsuario= " + idUsuario + "");
+            pst = con.prepareStatement("SELECT * FROM usuario WHERE idUsuario= '" + idUsuario + "'");
 
             rs = pst.executeQuery();
 
@@ -162,6 +162,40 @@ public class UsuarioDaoImp extends DataBase implements UsuarioDao {
             System.out.println("ERROR TO DELETE - delete()");
             System.out.println(e);
         }
+    }
+
+    @Override
+    public Usuario findUsuarioByDNI(String dni) {
+        Usuario user = new Usuario();
+
+        try {
+            con = getConnection();
+            pst = con.prepareStatement("SELECT * FROM usuario WHERE dni= '" + dni + "'");
+
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                user.setIdUsuario(rs.getString(1));
+                user.setDni(rs.getString(2));
+                user.setNombres(rs.getString(3));
+                user.setApellidos(rs.getString(4));
+                user.setEmail(rs.getString(5));
+                user.setPassword(rs.getString(6));
+
+            } else {
+                System.out.println("No se encontró Usuario con el dni = " + dni);
+            }
+
+            rs.close();
+            pst.close();
+            con.close();
+
+            System.out.println("SUCCESS TO FIND - find()");
+        } catch (SQLException e) {
+            System.out.println("ERROR TO FIND - find()");
+            System.out.println(e);
+        }
+        return user;
     }
 
 }

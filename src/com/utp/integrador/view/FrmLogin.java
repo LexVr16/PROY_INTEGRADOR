@@ -196,7 +196,7 @@ public class FrmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_iniciarActionPerformed
 
     private void btn_registrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registrarActionPerformed
-        UsuarioController.callJDUsuario("Desconocido");
+        UsuarioController.callJDUsuario(txt_usuario.getText());
     }//GEN-LAST:event_btn_registrarActionPerformed
 
     /**

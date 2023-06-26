@@ -8,6 +8,8 @@ import com.utp.integrador.controller.CuentaBancariaController;
 import com.utp.integrador.controller.TransaccionController;
 import com.utp.integrador.controller.UsuarioController;
 import com.utp.integrador.model.CuentaBancaria;
+import com.utp.integrador.model.dao.UsuarioDao;
+import com.utp.integrador.model.dao.impl.UsuarioDaoImp;
 import com.utp.integrador.utilitarios.Util;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -38,8 +40,7 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
      */
     void limpiar() {
         generateCod();
-        txt_nombre.setText("");
-        cbox_tipoCuenta.setSelectedIndex(0);
+        txt_nombreCuenta.setText("");
         txt_numeroCuenta.setText("");
         modelo.setRowCount(0);
         jTable_Cuentas.setModel(modelo);
@@ -49,8 +50,8 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
     }
 
     void generateCod() {
-        txt_id.setText(String.valueOf(Util.generateUniqueId()));
-        txt_nombre.requestFocus();
+        txt_idCuenta.setText(String.valueOf(Util.generateUniqueId()));
+        txt_nombreCuenta.requestFocus();
     }
 
     @SuppressWarnings("unchecked")
@@ -61,13 +62,13 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txt_id = new javax.swing.JTextField();
+        txt_idCuenta = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txt_numeroCuenta = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        cbox_tipoCuenta = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        txt_nombre = new javax.swing.JTextField();
+        txt_nombreCuenta = new javax.swing.JTextField();
+        txt_saldoCuenta = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         btn_nuevo = new javax.swing.JButton();
         btn_actualizar = new javax.swing.JButton();
@@ -75,9 +76,11 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
         btn_salir = new javax.swing.JButton();
         btn_registrar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txt_dni = new javax.swing.JTextField();
+        txt_dniUsuario = new javax.swing.JTextField();
+        txt_idUsuario = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         txt_fullName = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -90,28 +93,26 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
 
         jTabbedPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de Cuenta"));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Id :");
 
-        txt_id.setEditable(false);
-        txt_id.setEnabled(false);
+        txt_idCuenta.setEditable(false);
+        txt_idCuenta.setEnabled(false);
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("N° :");
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel4.setText("Tipo Cuenta");
-
-        cbox_tipoCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "< Select >", "S/.", "$." }));
+        jLabel4.setText("Saldo :");
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Nombre :");
 
-        txt_nombre.addActionListener(new java.awt.event.ActionListener() {
+        txt_nombreCuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_nombreActionPerformed(evt);
+                txt_nombreCuentaActionPerformed(evt);
             }
         });
 
@@ -125,16 +126,16 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txt_id)
-                    .addComponent(cbox_tipoCuenta, 0, 97, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt_idCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_saldoCuenta))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                    .addComponent(txt_nombreCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
                     .addComponent(txt_numeroCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -143,17 +144,17 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_idCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel5)
-                    .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_nombreCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(cbox_tipoCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(txt_numeroCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txt_numeroCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_saldoCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -212,28 +213,33 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(15, 15, 15)
                 .addComponent(btn_nuevo)
-                .addGap(18, 18, 18)
+                .addGap(37, 37, 37)
                 .addComponent(btn_registrar)
-                .addGap(18, 18, 18)
+                .addGap(29, 29, 29)
                 .addComponent(btn_salir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_actualizar)
-                .addGap(18, 18, 18)
+                .addGap(27, 27, 27)
                 .addComponent(btn_eliminar)
-                .addContainerGap())
+                .addGap(14, 14, 14))
         );
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel6.setText("Usuario :");
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Usuario"));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("DNI Usuario :");
+        jLabel2.setText("Nombres y Apellidos :");
 
-        txt_dni.setEnabled(false);
+        txt_dniUsuario.setEnabled(false);
+
+        txt_idUsuario.setEnabled(false);
+
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setText("DNI N°:");
+
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel8.setText("Id :");
 
         txt_fullName.setEnabled(false);
 
@@ -243,27 +249,34 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txt_fullName, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt_dni, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(txt_idUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_dniUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_fullName))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txt_dni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txt_fullName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_idUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_dniUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_fullName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -281,15 +294,15 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(21, 21, 21))
         );
 
         jTabbedPane1.addTab("CUENTA", jPanel2);
@@ -333,10 +346,11 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(btn_listarCuentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jScrollPane1)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btn_listarCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, 462, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(btn_seleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -344,12 +358,12 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_seleccionar)
                     .addComponent(btn_listarCuentas))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(16, 16, 16))
         );
 
         jTabbedPane1.addTab("LISTA CUENTAS", jPanel4);
@@ -367,8 +381,8 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
         );
 
         pack();
@@ -379,72 +393,74 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
     }//GEN-LAST:event_btn_nuevoActionPerformed
 
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
-        System.out.println("btn_actualizarActionPerformed ");
         CuentaBancaria bankAccount = new CuentaBancaria();
-        bankAccount.setId(txt_id.getText());
-        bankAccount.setDni(txt_dni.getText());
-        bankAccount.setNombre(txt_nombre.getText());
-        bankAccount.setTipoCuenta(String.valueOf(cbox_tipoCuenta.getSelectedItem()));
-        bankAccount.setNroDeCuenta(txt_numeroCuenta.getText());
-        CuentaBancariaController.loadTableActualizarCuentaBancaria(modelo, jTable_Cuentas, bankAccount);
+        bankAccount.setIdCuentaBancaria(txt_idCuenta.getText());
+        bankAccount.setIdUsuario(txt_idUsuario.getText());
+        bankAccount.setNombreCuenta(txt_nombreCuenta.getText());
+        bankAccount.setNroCuenta(txt_numeroCuenta.getText());
+        bankAccount.setSaldo(Double.valueOf(txt_saldoCuenta.getText()));
+        CuentaBancariaController.actualizarCuentaBancaria(modelo, jTable_Cuentas, bankAccount);
     }//GEN-LAST:event_btn_actualizarActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
         System.out.println("btn_eliminarActionPerformed ");
         CuentaBancaria bankAccount = new CuentaBancaria();
-        bankAccount.setId(txt_id.getText());
-        bankAccount.setDni(txt_dni.getText());
-        bankAccount.setNombre(txt_nombre.getText());
-        bankAccount.setTipoCuenta(String.valueOf(cbox_tipoCuenta.getSelectedItem()));
-        bankAccount.setNroDeCuenta(txt_numeroCuenta.getText());
-        CuentaBancariaController.loadTableEliminarCuentaBancaria(modelo, jTable_Cuentas, bankAccount);
+        bankAccount.setIdCuentaBancaria(txt_idCuenta.getText());
+        bankAccount.setIdUsuario(txt_dniUsuario.getText());
+        bankAccount.setNombreCuenta(txt_nombreCuenta.getText());
+        bankAccount.setNroCuenta(txt_numeroCuenta.getText());
+        bankAccount.setSaldo(Double.valueOf(txt_saldoCuenta.getText()));
+        CuentaBancariaController.eliminarCuentaBancaria(modelo, jTable_Cuentas, bankAccount);
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
+        limpiar();
         dispose();
     }//GEN-LAST:event_btn_salirActionPerformed
 
     private void btn_registrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registrarActionPerformed
         CuentaBancaria bankAccount = new CuentaBancaria();
-        bankAccount.setId(txt_id.getText());
-        bankAccount.setDni(txt_dni.getText());
-        bankAccount.setNombre(txt_nombre.getText());
-        bankAccount.setTipoCuenta(String.valueOf(cbox_tipoCuenta.getSelectedItem()));
-        bankAccount.setNroDeCuenta(txt_numeroCuenta.getText());
+        bankAccount.setIdCuentaBancaria(txt_idCuenta.getText());
+        bankAccount.setIdUsuario(txt_idUsuario.getText());
+        bankAccount.setNombreCuenta(txt_nombreCuenta.getText());
+        bankAccount.setNroCuenta(txt_numeroCuenta.getText());
+        bankAccount.setSaldo(Double.valueOf(txt_saldoCuenta.getText()));
 
-        CuentaBancariaController.loadTableAgregarCuentaBancaria(modelo, jTable_Cuentas, bankAccount);
+        CuentaBancariaController.AgregarCuentaBancaria(modelo, jTable_Cuentas, bankAccount);
 
     }//GEN-LAST:event_btn_registrarActionPerformed
 
-    private void txt_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nombreActionPerformed
+    private void txt_nombreCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nombreCuentaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_nombreActionPerformed
+    }//GEN-LAST:event_txt_nombreCuentaActionPerformed
 
     private void btn_listarCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_listarCuentasActionPerformed
+        modelo.setRowCount(0);
         CuentaBancaria bankAccount = new CuentaBancaria();
-        bankAccount.setDni(txt_dni.getText());
-        CuentaBancariaController.loadJTableCargarCuentasBancarias(modelo, jTable_Cuentas, bankAccount);
+        bankAccount.setIdCuentaBancaria(txt_idCuenta.getText());
+        bankAccount.setIdUsuario(txt_idUsuario.getText());
+        CuentaBancariaController.cargarTablaCuentasBancarias(modelo, jTable_Cuentas, bankAccount, txt_dniUsuario.getText());
         generateCod();
+
 
     }//GEN-LAST:event_btn_listarCuentasActionPerformed
 
     private void btn_seleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_seleccionarActionPerformed
         CuentaBancaria bankAccount = new CuentaBancaria();
-        bankAccount.setId(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 0).toString());
-        bankAccount.setDni(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 1).toString());
-        bankAccount.setNombre(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 2).toString());
-        bankAccount.setTipoCuenta(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 3).toString());
-        bankAccount.setNroDeCuenta(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 4).toString());
+        bankAccount.setIdCuentaBancaria(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 0).toString());
+        bankAccount.setIdUsuario(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 1).toString());
+        bankAccount.setNombreCuenta(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 2).toString());
+        bankAccount.setNroCuenta(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 3).toString());
+        bankAccount.setSaldo(Double.valueOf(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 4).toString()));
         TransaccionController.callJDTransaccionFromAccont(bankAccount);
         dispose();
     }//GEN-LAST:event_btn_seleccionarActionPerformed
 
     private void jTable_CuentasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_CuentasMouseReleased
-        txt_id.setText(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 0).toString());
-        txt_dni.setText(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 1).toString());
-        txt_nombre.setText(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 2).toString());
-        cbox_tipoCuenta.setSelectedItem(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 3).toString());
-        txt_numeroCuenta.setText(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 4).toString());
+        txt_idCuenta.setText(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 0).toString());
+        txt_nombreCuenta.setText(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 2).toString());
+        txt_numeroCuenta.setText(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 3).toString());
+        txt_saldoCuenta.setText(jTable_Cuentas.getValueAt(jTable_Cuentas.getSelectedRow(), 4).toString());
         btn_registrar.setEnabled(false);
         btn_actualizar.setEnabled(true);
         btn_eliminar.setEnabled(true);
@@ -502,13 +518,13 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
     private javax.swing.JButton btn_registrar;
     private javax.swing.JButton btn_salir;
     public javax.swing.JButton btn_seleccionar;
-    private javax.swing.JComboBox<String> cbox_tipoCuenta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -517,10 +533,12 @@ public class JDCuentaBancaria extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable_Cuentas;
-    public javax.swing.JTextField txt_dni;
+    public javax.swing.JTextField txt_dniUsuario;
     public javax.swing.JTextField txt_fullName;
-    private javax.swing.JTextField txt_id;
-    private javax.swing.JTextField txt_nombre;
+    private javax.swing.JTextField txt_idCuenta;
+    public javax.swing.JTextField txt_idUsuario;
+    private javax.swing.JTextField txt_nombreCuenta;
     private javax.swing.JTextField txt_numeroCuenta;
+    private javax.swing.JTextField txt_saldoCuenta;
     // End of variables declaration//GEN-END:variables
 }

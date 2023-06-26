@@ -6,63 +6,54 @@ package com.utp.integrador.model;
  */
 public class CuentaBancaria {
 
-    private String id;
-    private String dni;
-    private String nombre;
-    private String tipoCuenta;
-    private String nroDeCuenta;
+    private String idCuentaBancaria;
+    private String idUsuario;
+    private String nombreCuenta;
+    private String nroCuenta;
+    private Double saldo;
 
     public CuentaBancaria() {
     }
 
-    public CuentaBancaria(String id, String dni, String nombre, String tipoCuenta, String nroDeCuenta) {
-        this.id = id;
-        this.dni = dni;
-        this.nombre = nombre;
-        this.tipoCuenta = tipoCuenta;
-        this.nroDeCuenta = nroDeCuenta;
+    public String getIdCuentaBancaria() {
+        return idCuentaBancaria;
     }
 
-    public String getId() {
-        return id;
+    public void setIdCuentaBancaria(String idCuentaBancaria) {
+        this.idCuentaBancaria = idCuentaBancaria;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getIdUsuario() {
+        return idUsuario;
     }
 
-    public String getDni() {
-        return dni;
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public void setDni(String dni) {
-        this.dni = dni;
+    public String getNombreCuenta() {
+        return nombreCuenta;
     }
 
-    public String getNombre() {
-        return nombre;
+    public void setNombreCuenta(String nombreCuenta) {
+        this.nombreCuenta = nombreCuenta;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public String getNroCuenta() {
+        return nroCuenta;
     }
 
-    public String getTipoCuenta() {
-        return tipoCuenta;
+    public void setNroCuenta(String nroCuenta) {
+        this.nroCuenta = nroCuenta;
     }
 
-    public void setTipoCuenta(String tipoCuenta) {
-        this.tipoCuenta = tipoCuenta;
+    public Double getSaldo() {
+        return saldo;
     }
 
-    public String getNroDeCuenta() {
-        return nroDeCuenta;
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
     }
 
-    public void setNroDeCuenta(String nroDeCuenta) {
-        this.nroDeCuenta = nroDeCuenta;
-    }
-
-   
-
+    
 }

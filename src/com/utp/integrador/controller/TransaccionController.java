@@ -19,15 +19,16 @@ public class TransaccionController {
     }
 
     public static void callJDTransaccionFromAccont(CuentaBancaria account) {
-        if (account.getTipoCuenta().equals("S/.")) {
-            jDTransaccion.lbl_tipoCambio1.setText(account.getTipoCuenta());
-            jDTransaccion.txt_accountOrigen.setText(account.getNroDeCuenta());
-            jDTransaccion.setVisible(true);
-        } else {
-            jDTransaccion.lbl_tipoCambio2.setText(account.getTipoCuenta());
-            jDTransaccion.txt_accountDestino.setText(account.getNroDeCuenta());
-            jDTransaccion.setVisible(true);
-        }
+        jDTransaccion.setVisible(true);
+//        if (account.getTipoCuenta().equals("S/.")) {
+//            jDTransaccion.lbl_tipoCambio1.setText(account.getTipoCuenta());
+//            jDTransaccion.txt_accountOrigen.setText(account.getNroDeCuenta());
+//            jDTransaccion.setVisible(true);
+//        } else {
+//            jDTransaccion.lbl_tipoCambio2.setText(account.getTipoCuenta());
+//            jDTransaccion.txt_accountDestino.setText(account.getNroDeCuenta());
+//            jDTransaccion.setVisible(true);
+//        }
 
     }
 
