@@ -1,11 +1,11 @@
 package com.utp.integrador.controller;
 
 import com.utp.integrador.model.Pais;
+import com.utp.integrador.model.dao.PaisDao;
 import com.utp.integrador.model.dao.impl.PaisDaoImp;
 import com.utp.integrador.view.JDPais;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -13,43 +13,43 @@ import javax.swing.table.DefaultTableModel;
  * @author Usuario
  */
 public class PaisController {
-    
-    public static JDPais jDPais = new JDPais(null, true);
-    
+
+    public static final JDPais jDPais = new JDPais(null, true);
+    public static final PaisDao paisDao = new PaisDaoImp();
+
     public static void callJDPais() {
         jDPais.setVisible(true);
     }
-    
-    public static DefaultTableModel cargarTablaPaises(DefaultTableModel defaultTableModel, JTable jTable, Pais pais) {
-        PaisDaoImp paisDaoImp = new PaisDaoImp();
+
+    public static void cargarPaisesEnLaTabla() {
+        DefaultTableModel modelo;
+        String[] titulo = {"Cod", "Nombre"};
+        modelo = new DefaultTableModel(null, titulo);
         
-        List<Pais> listaUsuario = paisDaoImp.findAll();
-        
-        for (Pais p : listaUsuario) {
+        List<Pais> paises = paisDao.findAll();
+
+        for (Pais pais : paises) {
             Object[] objectData = {
-                p.getId(),
-                p.getNombre()
+                pais.getId(),
+                pais.getNombre()
             };
-            defaultTableModel.addRow(objectData);
+            modelo.addRow(objectData);
         }
-        
-        jTable.setModel(defaultTableModel);
-        return defaultTableModel;
+        jDPais.jTable_Pais.setModel(modelo);
     }
-    
+
     public static void registrarPais(Pais pais) {
-        PaisDaoImp paisDaoImp = new PaisDaoImp();        
-        paisDaoImp.insert(pais);
-        JOptionPane.showMessageDialog(null, "Se registro correctamente");
+        paisDao.insert(pais);
+        JOptionPane.showMessageDialog(null, "Se registró correctamente");
     }
-    
+
     public static void actualizarPais(Pais pais) {
-        PaisDaoImp paisDaoImp = new PaisDaoImp();        
-        paisDaoImp.update(pais);
+        paisDao.update(pais);
+        JOptionPane.showMessageDialog(null, "Se actualizó correctamente");
     }
-    
+
     public static void eliminarPais(Pais pais) {
-        PaisDaoImp paisDaoImp = new PaisDaoImp();        
-        paisDaoImp.delete(pais.getId());
+        paisDao.delete(pais.getId());
+        JOptionPane.showMessageDialog(null, "Se eliminó correctamente");
     }
 }

@@ -8,6 +8,7 @@ public class CuentaBancaria {
 
     private String idCuentaBancaria;
     private String idUsuario;
+    private String idMoneda;
     private String nombreCuenta;
     private String nroCuenta;
     private Double saldo;
@@ -29,6 +30,14 @@ public class CuentaBancaria {
 
     public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public String getIdMoneda() {
+        return idMoneda;
+    }
+
+    public void setIdMoneda(String idMoneda) {
+        this.idMoneda = idMoneda;
     }
 
     public String getNombreCuenta() {
@@ -54,6 +63,4 @@ public class CuentaBancaria {
     public void setSaldo(Double saldo) {
         this.saldo = saldo;
     }
-
-    
 }

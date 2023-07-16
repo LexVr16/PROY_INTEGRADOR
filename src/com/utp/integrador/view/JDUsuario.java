@@ -11,6 +11,7 @@ import com.utp.integrador.model.dao.UsuarioDao;
 import com.utp.integrador.model.dao.impl.UsuarioDaoImp;
 import com.utp.integrador.utilitarios.Util;
 import java.util.Objects;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -422,6 +423,7 @@ public class JDUsuario extends javax.swing.JDialog {
 
         if (user.getDni() != null) {
             System.out.println("Usuario ya fue registrado, Se autocompletan los campos");
+            JOptionPane.showMessageDialog(rootPane, "Usuario ya se encuentra registrado, desea actualizar datos");
             txt_idUsuario.setText(user.getIdUsuario());
             txt_dni.setText(user.getDni());
             txt_nombres.setText(user.getNombres());
@@ -432,7 +434,17 @@ public class JDUsuario extends javax.swing.JDialog {
             btn_actualizar.setEnabled(true);
         } else {
             System.out.println("Usuario es nuevo, favor de completar los campos");
+            JOptionPane.showMessageDialog(rootPane, "Usuario es nuevo, favor de completar los campos");
             generateCod();
+            txt_idUsuario.setText(String.valueOf(Util.generateUniqueId()));
+            txt_nombres.setText("");
+            txt_apellidos.setText("");
+            txt_eMail.setText("");
+            txt_password.setText("");
+            txt_nombres.requestFocus();
+            btn_actualizar.setEnabled(false);
+            btn_eliminar.setEnabled(false);
+            btn_registrar.setEnabled(true);
         }
     }//GEN-LAST:event_txt_dniActionPerformed
 

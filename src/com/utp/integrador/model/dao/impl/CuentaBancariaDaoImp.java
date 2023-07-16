@@ -25,13 +25,14 @@ public class CuentaBancariaDaoImp extends DataBase implements CuentaBancariaDao 
         try {
             con = getConnection();
             pst = con.prepareStatement("insert into CuentaBancaria (idCuentaBancaria, "
-                    + " idUsuario, nombreCuenta, nroCuenta, saldo) values(?,?,?,?,?)");
+                    + " idUsuario, idMoneda, nombreCuenta, nroCuenta, saldo) values(?,?,?,?,?,?)");
 
             pst.setString(1, cuentaBancaria.getIdCuentaBancaria());
             pst.setString(2, cuentaBancaria.getIdUsuario());
-            pst.setString(3, cuentaBancaria.getNombreCuenta());
-            pst.setString(4, cuentaBancaria.getNroCuenta());
-            pst.setDouble(5, cuentaBancaria.getSaldo());
+            pst.setString(3, cuentaBancaria.getIdMoneda());
+            pst.setString(4, cuentaBancaria.getNombreCuenta());
+            pst.setString(5, cuentaBancaria.getNroCuenta());
+            pst.setDouble(6, cuentaBancaria.getSaldo());
 
             pst.executeUpdate();
 
@@ -51,16 +52,17 @@ public class CuentaBancariaDaoImp extends DataBase implements CuentaBancariaDao 
 
         try {
             con = getConnection();
-            pst = con.prepareStatement("select * from CuentaBancaria where idCuentaBancaria= " + idCuentaBancaria + "");
+            pst = con.prepareStatement("select * from CuentaBancaria where idCuentaBancaria= '" + idCuentaBancaria + "'");
 
             rs = pst.executeQuery();
 
             if (rs.next()) {
                 cuentaBancaria.setIdCuentaBancaria(rs.getString(1));
                 cuentaBancaria.setIdUsuario(rs.getString(2));
-                cuentaBancaria.setNombreCuenta(rs.getString(3));
-                cuentaBancaria.setNroCuenta(rs.getString(4));
-                cuentaBancaria.setSaldo(rs.getDouble(5));
+                cuentaBancaria.setIdMoneda(rs.getString(3));
+                cuentaBancaria.setNombreCuenta(rs.getString(4));
+                cuentaBancaria.setNroCuenta(rs.getString(5));
+                cuentaBancaria.setSaldo(rs.getDouble(6));
             } else {
                 System.out.println("No se encontró CuentaBancaria con el idCuentaBancaria = " + idCuentaBancaria);
             }
@@ -111,7 +113,7 @@ public class CuentaBancariaDaoImp extends DataBase implements CuentaBancariaDao 
 
     @Override
     public void update(CuentaBancaria cuentaBancaria) {
-         try {
+        try {
             con = getConnection();
             pst = con.prepareStatement("UPDATE CuentaBancaria SET idUsuario=?,"
                     + " nombreCuenta=?, nroCuenta=?, saldo=? WHERE idCuentaBancaria=?");
@@ -156,21 +158,24 @@ public class CuentaBancariaDaoImp extends DataBase implements CuentaBancariaDao 
     }
 
     @Override
-    public List<CuentaBancaria> findAllByIdUsuario(String idUsuario) {
+    public List<CuentaBancaria> findAllAccountsByDNI(String dni) {
         List<CuentaBancaria> cuentaBancariaList = new ArrayList<>();
 
         try {
             con = getConnection();
-            pst = con.prepareStatement("SELECT * FROM CuentaBancaria WHERE idUsuario = '" + idUsuario + "'");
+//            pst = con.prepareStatement("SELECT * FROM CuentaBancaria WHERE dni = '" + idUsuario + "'");
+            pst = con.prepareStatement("SELECT cb.* FROM CuentaBancaria cb JOIN Usuario u ON "
+                    + "cb.idUsuario = u.idUsuario WHERE u.dni = '" + dni + "'");
             rs = pst.executeQuery();
 
             while (rs.next()) {
                 CuentaBancaria cuentaBancaria = new CuentaBancaria();
                 cuentaBancaria.setIdCuentaBancaria(rs.getString(1));
                 cuentaBancaria.setIdUsuario(rs.getString(2));
-                cuentaBancaria.setNombreCuenta(rs.getString(3));
-                cuentaBancaria.setNroCuenta(rs.getString(4));
-                cuentaBancaria.setSaldo(rs.getDouble(5));
+                cuentaBancaria.setIdMoneda(rs.getString(3));
+                cuentaBancaria.setNombreCuenta(rs.getString(4));
+                cuentaBancaria.setNroCuenta(rs.getString(5));
+                cuentaBancaria.setSaldo(rs.getDouble(6));
 
                 cuentaBancariaList.add(cuentaBancaria);
             }
@@ -185,6 +190,28 @@ public class CuentaBancariaDaoImp extends DataBase implements CuentaBancariaDao 
             System.out.println(e);
         }
         return cuentaBancariaList;
+    }
+
+    @Override
+    public void updateSaldo(CuentaBancaria cuentaBancaria) {
+        try {
+            con = getConnection();
+            pst = con.prepareStatement("UPDATE CuentaBancaria SET saldo=? "
+                    + "WHERE idCuentaBancaria=?");
+
+            pst.setString(1, String.valueOf(cuentaBancaria.getSaldo()));
+            pst.setString(2, cuentaBancaria.getIdCuentaBancaria());
+
+            pst.executeUpdate();
+
+            pst.close();
+            con.close();
+
+            System.out.println("SUCCESS TO UPDATE - update()");
+        } catch (SQLException e) {
+            System.out.println("ERROR TO UPDATE - update()");
+            System.out.println(e);
+        }
     }
 
 }

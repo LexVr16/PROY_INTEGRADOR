@@ -61,6 +61,7 @@ public class UsuarioDaoImp extends DataBase implements UsuarioDao {
             rs = pst.executeQuery();
 
             if (rs.next()) {
+                user.setIdUsuario(rs.getString(1));
                 user.setDni(rs.getString(2));
                 user.setNombres(rs.getString(3));
                 user.setApellidos(rs.getString(4));

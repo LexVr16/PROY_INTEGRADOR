@@ -54,7 +54,7 @@ public class MonedaDaoImp extends DataBase implements MonedaDao {
         Moneda moneda = new Moneda();
         try {
             con = getConnection();
-            pst = con.prepareStatement("select * from moneda where id = " + id + "");
+            pst = con.prepareStatement("select * from moneda where idMoneda = '" + id + "'");
 
             rs = pst.executeQuery();
 
@@ -84,7 +84,7 @@ public class MonedaDaoImp extends DataBase implements MonedaDao {
 
     @Override
     public List<Moneda> findAll() {
-        List<Moneda> Monedas = new ArrayList<>();
+        List<Moneda> monedaList = new ArrayList<>();
         String sql = "select * from moneda";
         try {
             con = super.getConnection();
@@ -92,16 +92,16 @@ public class MonedaDaoImp extends DataBase implements MonedaDao {
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                Moneda m = new Moneda();
-                
-                m.setId(rs.getString(1));
-                m.setNombre(rs.getString(2));
-                m.setSimbolo(rs.getString(3));
-                m.setTipoCambio(rs.getDouble(4));
-                m.setFechaHora(rs.getString(5));
-                m.setIdPais(rs.getString(6));
+                Moneda moneda = new Moneda();
 
-                Monedas.add(m);
+                moneda.setId(rs.getString(1));
+                moneda.setNombre(rs.getString(2));
+                moneda.setSimbolo(rs.getString(3));
+                moneda.setTipoCambio(rs.getDouble(4));
+                moneda.setFechaHora(rs.getString(5));
+                moneda.setIdPais(rs.getString(6));
+
+                monedaList.add(moneda);
             }
 
             rs.close();
@@ -114,15 +114,18 @@ public class MonedaDaoImp extends DataBase implements MonedaDao {
             System.out.println(e);
         }
 
-        return Monedas;
+        return monedaList;
 
     }
 
     @Override
     public void update(Moneda moneda) {
+        System.out.println(" <<< " + moneda.getId() + " " + moneda.getNombre()
+                + " " + moneda.getSimbolo() + " " + moneda.getFechaHora() + " " + moneda.getIdPais() + " ");
         try {
             con = getConnection();
-            pst = con.prepareStatement("update moneda set nombre=?, simbolo=?, tipoCambio=?, fechaHora=?, idPais=? where id=?");
+            pst = con.prepareStatement("update moneda set nombre=?, simbolo=?, "
+                    + "tipoCambio=?, fechaHora=?, idPais=? where idMoneda=?");
 
             pst.setString(1, moneda.getNombre());
             pst.setString(2, moneda.getSimbolo());
@@ -148,9 +151,7 @@ public class MonedaDaoImp extends DataBase implements MonedaDao {
     public void delete(String id) {
         try {
             con = this.getConnection();
-            pst = con.prepareStatement("delete from moneda where id=?");
-
-            pst.setString(1, id);
+            pst = con.prepareStatement("DELETE FROM Moneda WHERE idMoneda='" + id + "'");
 
             pst.executeUpdate();
 
@@ -162,5 +163,111 @@ public class MonedaDaoImp extends DataBase implements MonedaDao {
             System.out.println("ERROR TO DELETE - delete()");
             System.out.println(e);
         }
+    }
+
+    @Override
+    public Moneda getLastExchangeRate(String nombreMoneda) {
+        Moneda moneda = new Moneda();
+        try {
+            con = getConnection();
+            pst = con.prepareStatement("SELECT *\n"
+                    + "FROM Moneda WHERE nombre = '" + nombreMoneda + "'\n"
+                    + "ORDER BY STR_TO_DATE(fechaHora, '%d/%m/%Y %H:%i:%s') DESC\n"
+                    + "LIMIT 1;");
+
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                moneda.setId(rs.getString(1));
+                moneda.setNombre(rs.getString(2));
+                moneda.setSimbolo(rs.getString(3));
+                moneda.setTipoCambio(rs.getDouble(4));
+                moneda.setFechaHora(rs.getString(5));
+                moneda.setIdPais(rs.getString(6));
+            } else {
+                System.out.println("No hay registro ultimo tipo de Cambio de Moneda: " + nombreMoneda);
+            }
+
+            rs.close();
+            pst.close();
+            con.close();
+
+            System.out.println("SUCCESS TO FIND - find()");
+        } catch (SQLException e) {
+            System.out.println("ERROR TO FIND - find()");
+            System.out.println(e);
+        }
+        return moneda;
+    }
+
+    @Override
+    public List<Moneda> getLastDistinctNombreMoneda() {
+        List<Moneda> monedaList = new ArrayList<>();
+        try {
+            con = getConnection();
+            pst = con.prepareStatement("SELECT M.idMoneda, M.nombre, M.simbolo, M.tipoCambio, M.fechaHora, M.idPais\n"
+                    + "FROM Moneda M\n"
+                    + "JOIN (\n"
+                    + "    SELECT nombre, MAX(fechaHora) AS ultimaFechaHora\n"
+                    + "    FROM Moneda\n"
+                    + "    GROUP BY nombre\n"
+                    + ") UltimaFecha ON M.nombre = UltimaFecha.nombre AND M.fechaHora = UltimaFecha.ultimaFechaHora;");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Moneda moneda = new Moneda();
+
+                moneda.setId(rs.getString(1));
+                moneda.setNombre(rs.getString(2));
+                moneda.setSimbolo(rs.getString(3));
+                moneda.setTipoCambio(rs.getDouble(4));
+                moneda.setFechaHora(rs.getString(5));
+                moneda.setIdPais(rs.getString(6));
+
+                monedaList.add(moneda);
+            }
+
+            rs.close();
+            pst.close();
+            con.close();
+
+            System.out.println("SUCCESS TO FIND - find()");
+        } catch (SQLException e) {
+            System.out.println("ERROR TO FIND - find()");
+            System.out.println(e);
+        }
+        return monedaList;
+    }
+
+    @Override
+    public Moneda getMonedaByNombre(String nombreMoneda) {
+        Moneda moneda = new Moneda();
+        try {
+            con = getConnection();
+            pst = con.prepareStatement("select * from moneda where nombre = '" + nombreMoneda + "'");
+
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                moneda.setId(rs.getString(1));
+                moneda.setNombre(rs.getString(2));
+                moneda.setSimbolo(rs.getString(3));
+                moneda.setTipoCambio(rs.getDouble(4));
+                moneda.setFechaHora(rs.getString(5));
+                moneda.setIdPais(rs.getString(6));
+            } else {
+                System.out.println("No se encontró el Tippo de Moneda con el nombre = " + nombreMoneda);
+            }
+
+            rs.close();
+            pst.close();
+            con.close();
+
+            System.out.println("SUCCESS TO FIND - find()");
+        } catch (SQLException e) {
+            System.out.println("ERROR TO FIND - find()");
+            System.out.println(e);
+        }
+        return moneda;
     }
 }

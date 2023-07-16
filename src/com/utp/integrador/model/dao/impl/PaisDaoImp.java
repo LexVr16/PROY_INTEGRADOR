@@ -28,7 +28,7 @@ public class PaisDaoImp extends DataBase implements PaisDao {
     public void insert(Pais pais) {
         try {
             con = getConnection();
-            pst = con.prepareStatement("insert into pais (id, "
+            pst = con.prepareStatement("insert into pais (idPais, "
                     + "nombre) values(?,?)");
 
             pst.setString(1, pais.getId());
@@ -48,12 +48,12 @@ public class PaisDaoImp extends DataBase implements PaisDao {
 
     @Override
     public Pais find(String id) {
-        
+
         Pais pais = new Pais();
 
         try {
             con = getConnection();
-            pst = con.prepareStatement("select * from pais where id = " + id + "");
+            pst = con.prepareStatement("select * from pais where idPais = '" + id + "'");
 
             rs = pst.executeQuery();
 
@@ -61,7 +61,7 @@ public class PaisDaoImp extends DataBase implements PaisDao {
                 pais.setId(rs.getString(1));
                 pais.setNombre(rs.getString(2));
             } else {
-                System.out.println("No se encontró Usuario con el id = " + id);
+                System.out.println("No se encontró Usuario con el idPais = " + id);
             }
 
             rs.close();
@@ -82,7 +82,7 @@ public class PaisDaoImp extends DataBase implements PaisDao {
 
         try {
             con = getConnection();
-            pst = con.prepareStatement("select * from pais");
+            pst = con.prepareStatement("SELECT * FROM Pais");
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -111,8 +111,8 @@ public class PaisDaoImp extends DataBase implements PaisDao {
     public void update(Pais pais) {
         try {
             con = getConnection();
-            pst = con.prepareStatement("update pais set id=?, descripcion=? where id=?");
-            
+            pst = con.prepareStatement("update pais set nombre=? where idPais=?");
+
             pst.setString(1, pais.getNombre());
 
             pst.setString(2, pais.getId());
@@ -133,9 +133,7 @@ public class PaisDaoImp extends DataBase implements PaisDao {
     public void delete(String id) {
         try {
             con = this.getConnection();
-            pst = con.prepareStatement("delete from articulo where idarticulo=?");
-
-            pst.setString(1, id);
+            pst = con.prepareStatement("DELETE FROM Pais WHERE idPais= '" + id + "'");
 
             pst.executeUpdate();
 
@@ -147,6 +145,35 @@ public class PaisDaoImp extends DataBase implements PaisDao {
             System.out.println("ERROR TO DELETE - delete()");
             System.out.println(e);
         }
+    }
+
+    @Override
+    public Pais getIDPaisByNombre(String nombrePais) {
+        Pais pais = new Pais();
+
+        try {
+            con = getConnection();
+            pst = con.prepareStatement("SELECT * FROM pais WHERE nombre = '" + nombrePais + "'");
+
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                pais.setId(rs.getString(1));
+                pais.setNombre(rs.getString(2));
+            } else {
+                System.out.println("No se encontró Usuario con el nombre = " + nombrePais);
+            }
+
+            rs.close();
+            pst.close();
+            con.close();
+
+            System.out.println("SUCCESS TO FIND - find()");
+        } catch (SQLException e) {
+            System.out.println("ERROR TO FIND - find()");
+            System.out.println(e);
+        }
+        return pais;
     }
 
 }

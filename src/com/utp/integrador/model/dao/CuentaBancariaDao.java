@@ -9,5 +9,6 @@ import java.util.List;
  * @author Usuario
  */
 public interface CuentaBancariaDao extends EntidadDao<CuentaBancaria, String>{
-    List<CuentaBancaria> findAllByIdUsuario(String idUsuario);
+    List<CuentaBancaria> findAllAccountsByDNI(String dni);
+    void updateSaldo(CuentaBancaria cuentaBancaria);
 }
